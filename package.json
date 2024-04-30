@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon"
   },
   "nodemonConfig": {
     "exec": "ts-node ./src/app.ts",
-    "watch": ["src"],
+    "watch": [
+      "src"
+    ],
     "ext": "ts"
   },
   "dependencies": {
