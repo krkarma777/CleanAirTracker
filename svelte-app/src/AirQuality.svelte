@@ -3,7 +3,7 @@
     let airQualityData = [];
 
     async function fetchAirQuality(cityName) {
-        const response = await fetch(`https://localhost:3000/api/air-quality/${cityName}`);
+        const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
         airQualityData = await response.json();
     }
 
