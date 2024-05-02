@@ -2,6 +2,7 @@
 import express from 'express';
 import path from 'path';
 import airQuality from './api/airQuality';  // api.ts에서 정의된 라우터를 가져옵니다.
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
