@@ -8,7 +8,7 @@
     }
 
     onMount(() => {
-        fetchAirQuality('Seoul'); // 예시 도시명
+        fetchAirQuality('서울'); // 예시 도시명
     });
 </script>
 
