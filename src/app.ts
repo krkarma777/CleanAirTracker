@@ -1,7 +1,7 @@
 // app.ts
 import express from 'express';
 import path from 'path';
-import airQuality from './api/airQuality';  // api.ts에서 정의된 라우터를 가져옵니다.
+import airQuality from './api/AirQualityAPI';
 require('dotenv').config();
 
 const app = express();

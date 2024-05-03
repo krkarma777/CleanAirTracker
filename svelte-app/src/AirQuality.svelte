@@ -4,7 +4,8 @@
 
     async function fetchAirQuality(cityName) {
         const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
-        airQualityData = await response.json();
+        const data = await response.json();
+        airQualityData = data.response.body.items;  // 데이터 경로 수정
     }
 
     onMount(() => {
@@ -13,11 +14,11 @@
 </script>
 
 <main>
-    <h1>시도별 대기오염 정보</h1>
+    <h1>서울 시도별 대기오염 정보</h1>
     {#if airQualityData.length > 0}
         <ul>
             {#each airQualityData as data}
-                <li>{data.stationName}: {data.cai} (CAI 지수)</li>
+                <li>{data.stationName}: 공기 질 지수(KHAI) - {data.khaiValue}</li>
             {/each}
         </ul>
     {:else}
