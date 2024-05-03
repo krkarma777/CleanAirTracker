@@ -34,21 +34,28 @@ router.get('/:sidoName', async (req, res) => {
 router.post('/:sidoName', async (req, res) => {
     const { sidoName } = req.params;
     const apiKey = process.env.API_KEY;
-    const url = `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${apiKey}&returnType=json&numOfRows=100&pageNo=1&sidoName=${encodeURIComponent(sidoName)}&ver=1.0`;
-    console.log(AppDataSource.entityMetadatas);
-    console.log(AppDataSource.driver);
+    const url = `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${ apiKey }&returnType=json&numOfRows=100&pageNo=1&sidoName=${ encodeURIComponent(sidoName) }&ver=1.0`;
 
     try {
         const response = await axios.get(url);
         const items = response.data.response.body.items;
-
         const airQualityRepository = AppDataSource.getRepository(AirQuality);
+
         await Promise.all(items.map(async (item: IAirQuality) => {
-            const airQuality = airQualityRepository.create(item);
-            await airQualityRepository.save(airQuality);
+            // 이미 데이터가 있는지 확인
+            const existingData = await airQualityRepository.findOneBy({
+                dataTime: item.dataTime,
+                stationName: item.stationName
+            });
+
+            if (!existingData) {
+                // 데이터가 없으면 새로 생성
+                const airQuality = airQualityRepository.create(item);
+                await airQualityRepository.save(airQuality);
+            }
         }));
 
-        res.json({ message: 'Data has been successfully saved.' });
+        res.json({ message: 'Data has been successfully processed.' });
     } catch (error) {
         console.error('Error saving data:', error);
         res.status(500).json({ error: "Internal Server Error" });
