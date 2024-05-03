@@ -16,15 +16,14 @@ const airQualityService = new AirQualityService(AppDataSource);
 
 router.get('/:sidoName', async (req, res) => {
     const { sidoName } = req.params;
-    const apiKey = process.env.API_KEY;
-
-    if (!apiKey) {
-        return res.status(500).json({ error: "API Key is undefined" });
-    }
 
     try {
-        const response = await airQualityService.fetchAirQualityData(apiKey, sidoName);
-        res.json(response.data);
+        const data = await airQualityService.getAirQualityData(sidoName);
+        if (data.length > 0) {
+            res.json(data);
+        } else {
+            res.status(404).json({ message: 'No data found for the specified city.' });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Internal Server Error" });
