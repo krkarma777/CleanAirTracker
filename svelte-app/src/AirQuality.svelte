@@ -1,11 +1,11 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+
     let airQualityData = [];
 
     async function fetchAirQuality(cityName) {
-        const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
-        const data = await response.json();
-        airQualityData = data.response.body.items;  // 데이터 경로 수정
+        const response = await fetch(`http://localhost:3000/api/air-quality/${ cityName }`);
+        airQualityData = await response.json();
     }
 
     onMount(() => {
@@ -33,13 +33,16 @@
         background-color: #f5f5f5;
         color: #333;
     }
+
     h1 {
         color: #4CAF50;
     }
+
     ul {
         list-style: none;
         padding: 0;
     }
+
     li {
         margin: 1rem 0;
         font-size: 1.2rem;
