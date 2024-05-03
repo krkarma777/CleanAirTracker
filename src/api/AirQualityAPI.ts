@@ -1,9 +1,10 @@
 import express from 'express';
-import axios from "axios";
-import { AirQuality } from "../entity/AirQuality.entity";
-import { IAirQuality } from "../entity/IAirQuality";
 import { DataSource } from 'typeorm';
+import { AirQualityService } from '../servicies/AirQualityService';
 
+require('dotenv').config();
+
+const router = express.Router();
 export const AppDataSource = new DataSource(require("../../ormconfig.json"));
 AppDataSource.initialize().then(() => {
     console.log('Data Source has been initialized!')
@@ -11,19 +12,18 @@ AppDataSource.initialize().then(() => {
     console.error('Error during Data Source initialization:', err)
 });
 
-require('dotenv').config();
-
-const router = express.Router();
+const airQualityService = new AirQualityService(AppDataSource);
 
 router.get('/:sidoName', async (req, res) => {
     const { sidoName } = req.params;
     const apiKey = process.env.API_KEY;
-    console.log(apiKey);
-    const url =
-        `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${ apiKey }&returnType=json&numOfRows=100&pageNo=1&sidoName=${ encodeURIComponent(sidoName) }&ver=1.0`;
+
+    if (!apiKey) {
+        return res.status(500).json({ error: "API Key is undefined" });
+    }
 
     try {
-        const response = await axios.get(url);
+        const response = await airQualityService.fetchAirQualityData(apiKey, sidoName);
         res.json(response.data);
     } catch (error) {
         console.log(error);
@@ -34,21 +34,16 @@ router.get('/:sidoName', async (req, res) => {
 router.post('/:sidoName', async (req, res) => {
     const { sidoName } = req.params;
     const apiKey = process.env.API_KEY;
-    const url = `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=${apiKey}&returnType=json&numOfRows=100&pageNo=1&sidoName=${encodeURIComponent(sidoName)}&ver=1.0`;
-    console.log(AppDataSource.entityMetadatas);
-    console.log(AppDataSource.driver);
+
+    if (!apiKey) {
+        return res.status(500).json({ error: "API Key is undefined" });
+    }
 
     try {
-        const response = await axios.get(url);
+        const response = await airQualityService.fetchAirQualityData(apiKey, sidoName);
         const items = response.data.response.body.items;
-
-        const airQualityRepository = AppDataSource.getRepository(AirQuality);
-        await Promise.all(items.map(async (item: IAirQuality) => {
-            const airQuality = airQualityRepository.create(item);
-            await airQualityRepository.save(airQuality);
-        }));
-
-        res.json({ message: 'Data has been successfully saved.' });
+        await airQualityService.saveAirQualityData(items);
+        res.json({ message: 'Data has been successfully processed.' });
     } catch (error) {
         console.error('Error saving data:', error);
         res.status(500).json({ error: "Internal Server Error" });
