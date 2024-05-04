@@ -9,15 +9,15 @@ export class AirQualityCron {
     }
 
     public startCronJob(): void {
-        // 데이터 삭제 후 크론 작업 시작
-        this.airQualityService.deleteAllData().then(() => {
-            console.log('All existing data has been deleted.');
-        }).catch((error) => {
-            console.error('Failed to delete data:', error);
-        });
-
         // 매 10분마다 실행되는 크론 작업
-        cron.schedule('*/10 * * * *', async () => {
+        cron.schedule('*/1 * * * *', async () => {
+            // 데이터 삭제 후 크론 작업 시작
+            this.airQualityService.deleteAllData().then(() => {
+                console.log('All existing data has been deleted.');
+            }).catch((error) => {
+                console.error('Failed to delete data:', error);
+            });
+
             const apiKey = process.env.API_KEY;
             if (!apiKey) {
                 console.error('API Key is undefined');
@@ -35,9 +35,9 @@ export class AirQualityCron {
             const response = await this.airQualityService.fetchAirQualityData(apiKey, sidoName);
             const items = response.data.response.body.items;
             await this.airQualityService.saveAirQualityData(items);
-            console.log(`Data for ${sidoName} has been successfully processed.`);
+            console.log(`Data for ${ sidoName } has been successfully processed.`);
         } catch (error) {
-            console.error(`Error saving data for ${sidoName}:`, error);
+            console.error(`Error saving data for ${ sidoName }:`, error);
         }
     }
 }
