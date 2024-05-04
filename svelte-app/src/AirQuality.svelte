@@ -56,14 +56,4 @@
     h1 {
         color: #4CAF50;
     }
-
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li {
-        margin: 1rem 0;
-        font-size: 1.2rem;
-    }
 </style>
