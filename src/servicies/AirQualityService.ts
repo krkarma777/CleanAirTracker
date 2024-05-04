@@ -45,4 +45,9 @@ export class AirQualityService {
             }
         }));
     }
+
+    public async deleteAllData(): Promise<void> {
+        const airQualityRepository = this.dataSource.getRepository(AirQuality);
+        await airQualityRepository.clear();
+    }
 }
