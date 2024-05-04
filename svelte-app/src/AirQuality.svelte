@@ -1,31 +1,49 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import SeoulGeo from "./SeoulGeo.svelte";
+    import { writable } from 'svelte/store';
 
-    let airQualityData = [];
+    let airQualityData = writable<{ stationName: string; khaiValue: number }[]>([]);
 
-    async function fetchAirQuality(cityName) {
-        const response = await fetch(`http://localhost:3000/api/air-quality/${ cityName }`);
-        airQualityData = await response.json();
+    async function fetchAirQuality(cityName: string) {
+        try {
+            const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
+            if (!response.ok) {
+                throw new Error('대기 질 데이터를 불러오는 데 실패했습니다');
+            }
+            airQualityData.set(await response.json());
+        } catch (error) {
+            console.error('대기 질 데이터를 가져오는 중 에러가 발생했습니다:', error);
+            // 필요한 경우 여기서 UI 업데이트나 사용자에게 알림
+        }
     }
 
     onMount(() => {
-        fetchAirQuality('서울'); // 예시 도시명
+        fetchAirQuality('서울');
     });
 </script>
 
+<svelte:head>
+    <style>
+        #tooltip {
+            position: fixed;
+            padding: 10px;
+            background: white;
+            border: 1px solid black;
+            display: none;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</svelte:head>
+
 <main>
     <h1>서울 시도별 대기오염 정보</h1>
-    {#if airQualityData.length > 0}
-        <ul>
-            {#each airQualityData as data}
-                <li>{data.stationName}: 공기 질 지수(KHAI) - {data.khaiValue}</li>
-            {/each}
-        </ul>
-    {:else}
-        <p>데이터를 불러오는 중입니다...</p>
-    {/if}
+    <div id="seoulMap">
+        <SeoulGeo bind:airQualityData={airQualityData} />
+    </div>
+    <div id="tooltip"></div>
 </main>
-
 <style>
     main {
         text-align: center;
