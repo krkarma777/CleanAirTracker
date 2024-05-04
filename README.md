@@ -1,1 +1,1 @@
-![image](https://github.com/krkarma777/CleanAirTracker/assets/149022496/84d9f8c5-b23c-4adc-9072-99565770c036)
+![image](https://github.com/krkarma777/CleanAirTracker/assets/149022496/5fa635e1-2d23-4465-8961-99ae9bb5dceb)
