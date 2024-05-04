@@ -3,8 +3,10 @@
     import SeoulGeo from "./SeoulGeo.svelte";
     import { writable } from 'svelte/store';
 
-    let airQualityData = writable<{ stationName: string; khaiValue: number }[]>([]);
+    // 대기질 데이터 스토어 생성
+    export let airQualityData = writable([]);
 
+    // 대기 질 데이터를 서버에서 가져오는 함수
     async function fetchAirQuality(cityName: string) {
         try {
             const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
@@ -14,7 +16,6 @@
             airQualityData.set(await response.json());
         } catch (error) {
             console.error('대기 질 데이터를 가져오는 중 에러가 발생했습니다:', error);
-            // 필요한 경우 여기서 UI 업데이트나 사용자에게 알림
         }
     }
 
