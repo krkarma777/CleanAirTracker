@@ -52,11 +52,8 @@
     });
 </script>
 
-
-
 <main>
 <svg style='overflow:visible' width="800" height="656" xmlns="http://www.w3.org/2000/svg">
-
     <defs>
         <filter id="dropshadow">
             <feGaussianBlur in="SourceAlpha" stdDeviation="7"/>
@@ -245,24 +242,10 @@
         fill: #e74c3c;
     }
 
-    .LINE {
-        stroke-linejoin: round;
-        stroke: #ffffff;
-        stroke-width: 1;
-        fill: none;
-    }
-
-    .POINT {
-        stroke: #ffffff;
-        stroke-width: 1;
-        fill: #ffffff;
-    }
-
     .TEXT {
         fill: #ffffff;
         font-size: 16px;
         text-anchor: middle;
-        alignment-baseline: middle;
     }
 
     .tooltip {
