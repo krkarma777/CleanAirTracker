@@ -19,12 +19,12 @@ This section details the prerequisites and installation steps needed to get the 
 - npm (Node Package Manager)
 - TypeScript
 - TypeORM
-- MySQL or a compatible SQL database
+- PostgreSQL or a compatible SQL database
 
 ### Installation
 1. Clone the project:
    ```bash
-   git clone [Repository URL]
+   git clone https://github.com/krkarma777/CleanAirTracker.git
    cd [Cloned Directory Name]
    ```
 2. Install necessary packages:
