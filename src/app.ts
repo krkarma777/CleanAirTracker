@@ -1,11 +1,21 @@
-// app.ts
 import express from 'express';
 import path from 'path';
 import airQuality from './api/AirQualityAPI';
+
+import { AirQualityCron } from "./schedule/AirQualityCron";
+import { AppDataSource } from "./config/AppDataSource";
+import { AirQualityService } from "./servicies/AirQualityService";
+
 require('dotenv').config();
 
 const app = express();
 const port = 3000;
+
+const airQualityService = new AirQualityService(AppDataSource);
+const airQualityCron = new AirQualityCron(airQualityService);
+
+// 시작할 때 크론 작업도 시작
+airQualityCron.startCronJob();
 
 // Svelte 앱의 빌드된 파일 위치를 지정합니다.
 const buildPath = path.join(__dirname, '..', 'svelte-app', 'public');
