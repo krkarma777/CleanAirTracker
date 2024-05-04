@@ -43,7 +43,6 @@
     <div id="seoulMap">
         <SeoulGeo bind:airQualityData={airQualityData} />
     </div>
-    <div id="tooltip"></div>
 </main>
 <style>
     main {
