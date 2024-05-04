@@ -1,4 +1,3 @@
-// AirQualityCron.ts
 import cron from 'node-cron';
 import { AirQualityService } from '../servicies/AirQualityService';
 
@@ -25,17 +24,20 @@ export class AirQualityCron {
                 return;
             }
 
-            const sidoNames = ['서울']; // 시도 이름들 추가 예정
-            for (const sidoName of sidoNames) {
-                try {
-                    const response = await this.airQualityService.fetchAirQualityData(apiKey, sidoName);
-                    const items = response.data.response.body.items;
-                    await this.airQualityService.saveAirQualityData(items);
-                    console.log(`Data for ${ sidoName } has been successfully processed.`);
-                } catch (error) {
-                    console.error(`Error saving data for ${ sidoName }:`, error);
-                }
-            }
+            const sidoNames = ['서울', '부산', '대구'];
+            const promises = sidoNames.map(sidoName => this.processDataForSido(apiKey, sidoName));
+            await Promise.all(promises).catch(error => console.error('Error during batch processing:', error));
         });
+    }
+
+    private async processDataForSido(apiKey: string, sidoName: string): Promise<void> {
+        try {
+            const response = await this.airQualityService.fetchAirQualityData(apiKey, sidoName);
+            const items = response.data.response.body.items;
+            await this.airQualityService.saveAirQualityData(items);
+            console.log(`Data for ${sidoName} has been successfully processed.`);
+        } catch (error) {
+            console.error(`Error saving data for ${sidoName}:`, error);
+        }
     }
 }
