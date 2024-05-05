@@ -9,7 +9,7 @@
     // 대기 질 데이터를 서버에서 가져오는 함수
     async function fetchAirQuality(cityName: string) {
         try {
-            const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
+            const response = await fetch(`http://localhost:3000/api/air-quality/${ cityName }`);
             if (!response.ok) {
                 throw new Error('대기 질 데이터를 불러오는 데 실패했습니다');
             }
@@ -19,31 +19,41 @@
         }
     }
 
+    let airQualityGradient = 'linear-gradient(to right, #27ae60, #2ecc71, #f1c40f, #f39c12, #e67e22, #d35400, #e74c3c, #c0392b, #8e44ad)';
+
+    let currentDate = new Date();
+    export let currentTime = writable(currentDate.toLocaleString());
+
+    // 시간 업데이트 함수
+    function updateTime() {
+        const now = new Date();
+        currentTime.set(now.toLocaleString());
+    }
+
     onMount(() => {
         fetchAirQuality('서울');
+        setInterval(updateTime, 1000);
     });
 </script>
 
-<svelte:head>
-    <style>
-        #tooltip {
-            position: fixed;
-            padding: 10px;
-            background: white;
-            border: 1px solid black;
-            display: none;
-            pointer-events: none;
-            z-index: 1000;
-        }
-    </style>
-</svelte:head>
-
 <main>
     <h1>서울 시도별 대기오염 정보</h1>
-    <div id="seoulMap">
-        <SeoulGeo bind:airQualityData={airQualityData} />
+    <div style="display: flex; align-items: center; justify-content: center; ">
+        <div class="air-quality-gradient" style="width: 50%;">
+            <div class="labels">
+                <span>매우 좋음</span>
+                <span class="right-align">매우 나쁨</span>
+            </div>
+            <div class="gradient-bar" style="background: {airQualityGradient};"></div>
+        </div>
     </div>
+    <div class="hover-instruction">지역에 마우스를 올려 대기 질 상세 정보를 확인하세요.</div>
+    <div id="seoulMap">
+        <SeoulGeo bind:airQualityData={airQualityData}/>
+    </div>
+    <p class="time-display">기준 시간: {$currentTime}</p>
 </main>
+
 <style>
     main {
         text-align: center;
@@ -54,5 +64,36 @@
 
     h1 {
         color: #4CAF50;
+    }
+
+    .air-quality-gradient {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .gradient-bar {
+        width: 100%;
+        height: 20px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .labels {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .right-align {
+        text-align: right;
+    }
+
+    .hover-instruction {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+        text-align: center;
     }
 </style>
