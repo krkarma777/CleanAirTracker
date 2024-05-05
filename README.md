@@ -1,4 +1,4 @@
-![image](https://github.com/krkarma777/CleanAirTracker/assets/149022496/e4d724af-961e-4922-adba-2c306ba15d91)
+![image](https://github.com/krkarma777/CleanAirTracker/assets/149022496/75fac6c7-59e5-4fb8-9974-49e20db7dbb0)
 
 # Clean Air Tracker
 
