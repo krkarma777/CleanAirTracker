@@ -26,15 +26,18 @@
     });
 </script>
 
-<main>
+<main >
     <h1>서울 시도별 대기오염 정보</h1>
-    <div class="air-quality-gradient">
-        <div class="labels">
-            <span>Very Good</span>
-            <span class="right-align">Very Bad</span>
+    <div style="display: flex; align-items: center; justify-content: center; ">
+        <div class="air-quality-gradient" style="width: 50%;">
+            <div class="labels">
+                <span>매우 좋음</span>
+                <span class="right-align">매우 나쁨</span>
+            </div>
+            <div class="gradient-bar" style="background: {airQualityGradient};"></div>
         </div>
-        <div class="gradient-bar" style="background: {airQualityGradient};"></div>
     </div>
+    <div class="hover-instruction">지역에 마우스를 올려 대기 질 상세 정보를 확인하세요.</div>
     <div id="seoulMap">
         <SeoulGeo bind:airQualityData={airQualityData}/>
     </div>
@@ -74,5 +77,12 @@
 
     .right-align {
         text-align: right;
+    }
+
+    .hover-instruction {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+        text-align: center;
     }
 </style>
