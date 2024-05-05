@@ -9,7 +9,7 @@
     // 대기 질 데이터를 서버에서 가져오는 함수
     async function fetchAirQuality(cityName: string) {
         try {
-            const response = await fetch(`http://localhost:3000/api/air-quality/${cityName}`);
+            const response = await fetch(`http://localhost:3000/api/air-quality/${ cityName }`);
             if (!response.ok) {
                 throw new Error('대기 질 데이터를 불러오는 데 실패했습니다');
             }
@@ -19,31 +19,27 @@
         }
     }
 
+    let airQualityGradient = 'linear-gradient(to right, #27ae60, #2ecc71, #f1c40f, #f39c12, #e67e22, #d35400, #e74c3c, #c0392b, #8e44ad)';
+
     onMount(() => {
         fetchAirQuality('서울');
     });
 </script>
 
-<svelte:head>
-    <style>
-        #tooltip {
-            position: fixed;
-            padding: 10px;
-            background: white;
-            border: 1px solid black;
-            display: none;
-            pointer-events: none;
-            z-index: 1000;
-        }
-    </style>
-</svelte:head>
-
 <main>
     <h1>서울 시도별 대기오염 정보</h1>
+    <div class="air-quality-gradient">
+        <div class="labels">
+            <span>Very Good</span>
+            <span class="right-align">Very Bad</span>
+        </div>
+        <div class="gradient-bar" style="background: {airQualityGradient};"></div>
+    </div>
     <div id="seoulMap">
-        <SeoulGeo bind:airQualityData={airQualityData} />
+        <SeoulGeo bind:airQualityData={airQualityData}/>
     </div>
 </main>
+
 <style>
     main {
         text-align: center;
@@ -54,5 +50,29 @@
 
     h1 {
         color: #4CAF50;
+    }
+
+    .air-quality-gradient {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .gradient-bar {
+        width: 100%;
+        height: 20px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .labels {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .right-align {
+        text-align: right;
     }
 </style>
