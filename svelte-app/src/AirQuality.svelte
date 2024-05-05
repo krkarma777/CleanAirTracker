@@ -21,12 +21,22 @@
 
     let airQualityGradient = 'linear-gradient(to right, #27ae60, #2ecc71, #f1c40f, #f39c12, #e67e22, #d35400, #e74c3c, #c0392b, #8e44ad)';
 
+    let currentDate = new Date();
+    export let currentTime = writable(currentDate.toLocaleString());
+
+    // 시간 업데이트 함수
+    function updateTime() {
+        const now = new Date();
+        currentTime.set(now.toLocaleString());
+    }
+
     onMount(() => {
         fetchAirQuality('서울');
+        setInterval(updateTime, 1000);
     });
 </script>
 
-<main >
+<main>
     <h1>서울 시도별 대기오염 정보</h1>
     <div style="display: flex; align-items: center; justify-content: center; ">
         <div class="air-quality-gradient" style="width: 50%;">
@@ -41,6 +51,7 @@
     <div id="seoulMap">
         <SeoulGeo bind:airQualityData={airQualityData}/>
     </div>
+    <p class="time-display">기준 시간: {$currentTime}</p>
 </main>
 
 <style>
