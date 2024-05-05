@@ -10,7 +10,7 @@ export class AirQualityCron {
 
     public startCronJob(): void {
         // 매 10분마다 실행되는 크론 작업
-        cron.schedule('*/10 * * * *', async () => {
+        cron.schedule('*/30 * * * *', async () => {
             // 데이터 삭제 후 크론 작업 시작
             this.airQualityService.deleteAllData().then(() => {
                 console.log('All existing data has been deleted.');
