@@ -9,7 +9,7 @@
     // 대기 질 데이터를 서버에서 가져오는 함수
     async function fetchAirQuality(cityName: string) {
         try {
-            const response = await fetch(`http://localhost:3000/api/air-quality/${ cityName }`);
+            const response = await fetch(`https://cleanairtracker.kro.kr/api/air-quality/${ cityName }`);
             if (!response.ok) {
                 throw new Error('대기 질 데이터를 불러오는 데 실패했습니다');
             }
