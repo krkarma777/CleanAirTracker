@@ -1,10 +1,10 @@
-![image](https://github.com/krkarma777/CleanAirTracker/assets/149022496/75fac6c7-59e5-4fb8-9974-49e20db7dbb0)
+![Clean Air Tracker](https://github.com/krkarma777/CleanAirTracker/assets/149022496/75fac6c7-59e5-4fb8-9974-49e20db7dbb0)
 
 # Clean Air Tracker
 
 ## Project Description
 
-Clean Air Tracker is a website that utilizes the AirKorea OpenAPI from the Korea Environment Corporation to provide real-time air quality information, including particulate matter, fine particulate matter, and ozone. The website is developed using Express, TypeScript, Svelte, PostgreSQL, and TypeORM. Through this site, users can easily check the current air quality status of various regions across the country
+Clean Air Tracker is a website that utilizes the AirKorea OpenAPI from the Korea Environment Corporation to provide real-time air quality information, including particulate matter, fine particulate matter, and ozone. The website is developed using Express, TypeScript, Svelte, PostgreSQL, and TypeORM. Through this site, users can easily check the current air quality status of various regions across the country.
 
 ## Features
 - **Real-Time Air Quality Information**: Users can view real-time air quality information for selected locations.
@@ -52,13 +52,24 @@ This section details the prerequisites and installation steps needed to get the 
            "dist/**/*.entity.js" // Ensure this path matches your compiled files
        ]
    }
-This configuration sets up the database connection for your PostgreSQL database. Adjust the settings as necessary to match your environment.
+   ```
+   This configuration sets up the database connection for your PostgreSQL database. Adjust the settings as necessary to match your environment.
 
-5. Start the application:
-  To run the server locally, use the following command:
-  ```
-  npm start
-  ```
+5. **Setting Up HTTPS**:
+   For secure communication, you need to set up HTTPS by obtaining SSL/TLS certificates. Place the following files in your project directory under `src/config`:
+   - `private.key`: Your private key file.
+   - `certificate.crt`: Your SSL/TLS certificate.
+   - `ca_bundle.crt`: Certificate authority bundle.
+
+6. Start the application:
+   To run the server locally, use the following command:
+   ```bash
+   cd svelte-app
+   npm run build
+   cd ..
+   npm run build
+   npm start
+   ```
 
 ## Usage
 After starting the server, navigate to `http://localhost:3000` in your web browser to view the Clean Air Tracker site. You can interact with the real-time data and explore different regions' air quality metrics.
