@@ -72,7 +72,7 @@ This section details the prerequisites and installation steps needed to get the 
    ```
 
 ## Usage
-After starting the server, navigate to `http://localhost:3000` in your web browser to view the Clean Air Tracker site. You can interact with the real-time data and explore different regions' air quality metrics.
+After starting the server, navigate to `https://localhost:443` in your web browser to view the Clean Air Tracker site. You can interact with the real-time data and explore different regions' air quality metrics.
 
 ## Contributing
 Contributions to Clean Air Tracker are welcome. Please consider the following steps:
