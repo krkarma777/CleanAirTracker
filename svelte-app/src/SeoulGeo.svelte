@@ -17,7 +17,9 @@
         currentTooltip.set(null);
     }
 
-    const calculateColor = (value) => {
+    const calculateColor = (khaiValue) => {
+        if (khaiValue === "-") return '#808080'; // 통신장애시 색상 표기
+        const value = parseInt(khaiValue);
         if (value <= 25) return '#27ae60';    // 매우 좋음
         if (value <= 50) return '#2ecc71';    // 좋음
         if (value <= 75) return '#f1c40f';    // 양호
