@@ -53,7 +53,7 @@
     </div>
     <div class="center-align">
         <div class="notice">
-            <strong>알림:</strong> 회색 지역은 현재 대기질 정보가 집계되지 않은 지역입니다.
+            회색 지역은 현재 정보가 집계되지 않은 지역입니다.
         </div>
     </div>
     <p class="time-display">기준 시간: {$currentTime}</p>
@@ -102,16 +102,31 @@
         text-align: center;
     }
 
-    .notice {
-        width: 30%;
-        background-color: #ffffff;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
     .center-align {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    @media (max-width: 480px) {
+        .hover-instruction {
+            display: none;
+        }
+
+        .air-quality-gradient {
+            display: none;
+        }
+
+        .notice {
+            font-size: 8px;
+        }
+
+        .time-display {
+            font-size: 8px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
     }
 </style>
