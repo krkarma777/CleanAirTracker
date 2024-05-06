@@ -38,7 +38,7 @@
 
 <main>
     <h1>서울 시도별 대기오염 정보</h1>
-    <div style="display: flex; align-items: center; justify-content: center; ">
+    <div class="center-align">
         <div class="air-quality-gradient" style="width: 50%;">
             <div class="labels">
                 <span>매우 좋음</span>
@@ -50,6 +50,11 @@
     <div class="hover-instruction">지역에 마우스를 올려 대기 질 상세 정보를 확인하세요.</div>
     <div id="seoulMap">
         <SeoulGeo bind:airQualityData={airQualityData}/>
+    </div>
+    <div class="center-align">
+        <div class="notice">
+            <strong>알림:</strong> 회색 지역은 현재 대기질 정보가 집계되지 않은 지역입니다.
+        </div>
     </div>
     <p class="time-display">기준 시간: {$currentTime}</p>
 </main>
@@ -95,5 +100,18 @@
         font-size: 14px;
         color: #666;
         text-align: center;
+    }
+
+    .notice {
+        width: 30%;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .center-align {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
