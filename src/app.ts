@@ -1,7 +1,8 @@
 import express from 'express';
 import path from 'path';
+import https from 'https';
+import fs from 'fs';
 import airQuality from './api/AirQualityAPI';
-
 import { AirQualityCron } from "./schedule/AirQualityCron";
 import { AppDataSource } from "./config/AppDataSource";
 import { AirQualityService } from "./servicies/AirQualityService";
@@ -9,10 +10,17 @@ import { AirQualityService } from "./servicies/AirQualityService";
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = 443;
 
 const airQualityService = new AirQualityService(AppDataSource);
 const airQualityCron = new AirQualityCron(airQualityService);
+
+// HTTPS 인증서 및 개인 키를 로드하기 위해 fs 모듈을 사용합니다.
+const httpsOptions = {
+    key: fs.readFileSync(path.join(__dirname, '../src', 'config', 'private.key')), // 개인 키 파일 경로
+    cert: fs.readFileSync(path.join(__dirname, '../src', 'config', 'certificate.crt')), // SSL/TLS 인증서 파일 경로
+    ca: fs.readFileSync(path.join(__dirname, '../src', 'config', 'ca_bundle.crt')) // 중간 인증 기관 (Intermediate CA) 파일 경로
+};
 
 // 시작할 때 크론 작업도 시작
 airQualityCron.startCronJob();
@@ -31,6 +39,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+// HTTPS 서버 시작
+https.createServer(httpsOptions, app).listen(port, () => {
+    console.log(`Server is running on https://localhost:${ port }`);
 });
